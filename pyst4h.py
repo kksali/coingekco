@@ -132,6 +132,14 @@ if not pairs_df.empty:
     # Enable data download
     csv = pairs_df.to_csv(index=False)
     st.download_button(label="Download data as CSV", data=csv, file_name='crypto_data.csv', mime='text/csv')
+
+     # Multiselect bar for selecting coins below the dataframe
+    selected_coins = st.multiselect("Select coins from the list below:", pairs_df['symbol'].unique())
+
+    if selected_coins:
+        filtered_df = pairs_df[pairs_df['symbol'].isin(selected_coins)]
+        st.write(f"Displaying data for selected coins: {', '.join(selected_coins)}")
+        st.dataframe(filtered_df)
     
 else:
     st.error("No data available to display.")
